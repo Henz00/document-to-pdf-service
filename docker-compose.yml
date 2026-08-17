@@ -3,6 +3,7 @@ services:
     build:
       context: ./ODTDOCXtoPDFConverter.Api
     container_name: odtdocx-api
+    restart: unless-stopped
     environment:
       ASPNETCORE_ENVIRONMENT: Production
     volumes:
@@ -13,6 +14,7 @@ services:
     build:
       context: ./ODTDOCXtoPDFConverter.Web
     container_name: odtdocx-web
+    restart: unless-stopped
     ports:
       - "4200:80"
     depends_on:

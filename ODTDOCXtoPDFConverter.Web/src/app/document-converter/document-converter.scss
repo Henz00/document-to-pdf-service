@@ -1,0 +1,16 @@
+:host {
+    text-align: center;
+    display: grid;
+}
+
+form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    justify-items: center;
+    text-align: left;
+}
+
+div {
+    display: grid;
+}

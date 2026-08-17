@@ -1,0 +1,6 @@
+@ODTDOCXtoPDFConverter.Api_HostAddress = http://localhost:5177
+
+GET {{ODTDOCXtoPDFConverter.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

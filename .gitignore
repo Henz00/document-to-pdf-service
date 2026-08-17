@@ -1,0 +1,24 @@
+# .NET
+**/bin/
+**/obj/
+
+# Visual Studio
+.vs/
+
+# Angular / Node
+**/node_modules/
+**/.angular/
+
+# SQLite
+*.db
+*.db-shm
+*.db-wal
+
+# User files / generated output
+*.pdf
+*.odt
+
+# Environment/secrets
+.env
+.env.*
+!.env.example

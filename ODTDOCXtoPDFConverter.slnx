@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ODTDOCXtoPDFConverter.Api/ODTDOCXtoPDFConverter.Api.csproj" Id="e3d8fd39-c526-4922-a614-744297b3c704" />
+  <Project Path="ODTDOCXtoPDFConverter/ODTDOCXtoPDFConverter.csproj" />
+</Solution>

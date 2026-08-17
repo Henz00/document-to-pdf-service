@@ -1,0 +1,23 @@
+services:
+  api:
+    build:
+      context: ./ODTDOCXtoPDFConverter.Api
+    container_name: odtdocx-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+    volumes:
+      - identity-data:/app/data
+      - dataprotection-keys:/root/.aspnet/DataProtection-Keys
+
+  web:
+    build:
+      context: ./ODTDOCXtoPDFConverter.Web
+    container_name: odtdocx-web
+    ports:
+      - "4200:80"
+    depends_on:
+      - api
+
+volumes:
+  identity-data:
+  dataprotection-keys:

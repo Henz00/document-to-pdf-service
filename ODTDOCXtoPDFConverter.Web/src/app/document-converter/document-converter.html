@@ -1,0 +1,27 @@
+<h1>Document Converter</h1>
+<logout></logout>
+<form (submit)="convert($event)">
+  <div>
+    <label for="document-file">Document</label>
+    <input
+      type="file"
+      id="document-file"
+      accept=".odt"
+      (change)="onDocumentSelected($event)"
+    />
+  </div>
+
+  <div>
+    <label for="variables-file">Variables</label>
+    <input
+      type="file"
+      id="variables-file"
+      accept=".json"
+      (change)="onVariablesSelected($event)"
+    />
+  </div>
+
+  <div>
+    <button type="submit">Convert to PDF</button>
+  </div>
+</form>

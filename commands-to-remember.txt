@@ -1,0 +1,5 @@
+Create a user:
+docker compose exec api dotnet ODTDOCXtoPDFConverter.Api.dll create-user nameOfUser
+
+Name of services:
+docker compose config --services

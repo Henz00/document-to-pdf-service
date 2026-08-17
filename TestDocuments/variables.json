@@ -1,0 +1,9 @@
+{
+	"Name": "Customer",
+	"test_number": "81",
+	"doc_type":"odt",
+	"responsible_name": "Employee",
+	"responsible_email": "test@email.com",
+	"company_name": "Cadana",
+	"company_address": "Lalandia 1234"
+}

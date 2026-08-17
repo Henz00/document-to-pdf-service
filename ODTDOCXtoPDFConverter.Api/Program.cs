@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using ODTDOCXtoPDFConverter.Api.Models;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.AspNetCore.HttpOverrides;
+using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +27,26 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 
     options.KnownNetworks.Clear();
     options.KnownProxies.Clear();
+});
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddPolicy("login", httpContext =>
+    {
+        var ip = httpContext.Connection.RemoteIpAddress?.ToString()
+                 ?? "unknown";
+
+        return RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: ip,
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 5,
+                Window = TimeSpan.FromMinutes(1),
+                QueueLimit = 0
+            });
+    });
+
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 });
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -79,6 +101,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseForwardedHeaders();
+app.UseRateLimiter();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

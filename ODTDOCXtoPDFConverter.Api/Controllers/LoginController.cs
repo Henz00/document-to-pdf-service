@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using ODTDOCXtoPDFConverter.Api.Models;
 using ODTDOCXtoPDFConverter.Api.Services;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace ODTDOCXtoPDFConverter.Api.Controllers
 {
@@ -18,6 +19,7 @@ namespace ODTDOCXtoPDFConverter.Api.Controllers
         }
 
         [HttpPost("login")]
+        [EnableRateLimiting("login")]
         public async Task<ActionResult> AuthenticateLogin(LoginRequestModel loginCredentials, CancellationToken cancellationToken)
         {
             var result = await _signInManager.PasswordSignInAsync(loginCredentials.Username, loginCredentials.Password, isPersistent: false, lockoutOnFailure: true);

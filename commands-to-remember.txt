@@ -3,3 +3,6 @@ docker compose exec api dotnet ODTDOCXtoPDFConverter.Api.dll create-user nameOfU
 
 Name of services:
 docker compose config --services
+
+Build project:
+docker compose up --build -d

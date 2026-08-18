@@ -25,7 +25,7 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
         ForwardedHeaders.XForwardedFor |
         ForwardedHeaders.XForwardedProto;
 
-    options.KnownNetworks.Clear();
+    options.KnownIPNetworks.Clear();
     options.KnownProxies.Clear();
 });
 
@@ -53,6 +53,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<IPdfConverterService ,PdfConverterService>();
+builder.Services.AddScoped<IDocumentProcessor, OdtDocumentProcessorService>();
+builder.Services.AddScoped<IDocumentProcessor, DocxDocumentProcessorService>();
 
 var app = builder.Build();
 

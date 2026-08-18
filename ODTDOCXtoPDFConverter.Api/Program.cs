@@ -55,8 +55,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddDefaultTokenProviders();
 
 builder.Services.AddScoped<IPdfConverterService ,PdfConverterService>();
-builder.Services.AddScoped<IDocumentProcessor, OdtDocumentProcessorService>();
-builder.Services.AddScoped<IDocumentProcessor, DocxDocumentProcessorService>();
+builder.Services.AddScoped<OdtDocumentProcessorService>();
+builder.Services.AddScoped<DocxDocumentProcessorService>();
 
 var app = builder.Build();
 

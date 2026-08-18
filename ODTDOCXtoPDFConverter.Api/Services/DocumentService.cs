@@ -11,10 +11,10 @@ namespace ODTDOCXtoPDFConverter.Api.Services
         private readonly ILogger<DocumentService> _logger;
         private readonly IConfiguration _configuration;
         private readonly IPdfConverterService _pdfConverter;
-        private readonly IDocumentProcessor _odtProcessor;
-        private readonly IDocumentProcessor _docxProcessor;
+        private readonly OdtDocumentProcessorService _odtProcessor;
+        private readonly DocxDocumentProcessorService _docxProcessor;
 
-        public DocumentService(ILogger<DocumentService> logger, IConfiguration configuration, IPdfConverterService pdfConverter, IDocumentProcessor odtProcessor, IDocumentProcessor docxProcessor)
+        public DocumentService(ILogger<DocumentService> logger, IConfiguration configuration, IPdfConverterService pdfConverter, OdtDocumentProcessorService odtProcessor, DocxDocumentProcessorService docxProcessor)
         {
             _logger = logger;
             _configuration = configuration;
@@ -35,7 +35,7 @@ namespace ODTDOCXtoPDFConverter.Api.Services
             Dictionary<string, string>? jsonVariables = await JsonSerializer.DeserializeAsync<Dictionary<string, string>>(variablesStream, cancellationToken: cancellationToken);
 
             // document preparation
-            var extension = Path.GetExtension(document.FileName);
+            string extension = Path.GetExtension(document.FileName).ToLowerInvariant();
             string outputFile = "";
 
             try

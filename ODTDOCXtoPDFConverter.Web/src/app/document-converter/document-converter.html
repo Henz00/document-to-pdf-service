@@ -27,3 +27,18 @@
     <button type="submit">Convert to PDF</button>
   </div>
 </form>
+
+<form [formGroup]="form">
+
+  @for (variable of variables; track variable){
+    <div>
+    <label [for]="variable">{{ variable }}</label>
+
+    <input
+      [id]="variable"
+      [formControlName]="variable"
+    />
+  </div>
+  }
+
+</form>

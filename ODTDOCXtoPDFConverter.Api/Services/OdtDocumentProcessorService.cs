@@ -24,23 +24,27 @@ namespace ODTDOCXtoPDFConverter.Api.Services
             if (contentEntry is null || stylesEntry is null)
                 throw new Exception("xml file not found!");
 
-            //extracting elements for header+footer
+            //preparing content.xml for extraction
+            using Stream stream = contentEntry.Open();
+            XDocument contentDocument = XDocument.Load(stream);
+
+            //preparing styles.xml for extraction
             using Stream stylesStream = stylesEntry.Open();
             XDocument stylesDocument = XDocument.Load(stylesStream);
-            XNamespace style = "urn:oasis:names:tc:opendocument:xmlns:style:1.0";
-            IEnumerable<XElement> headersTextElements = stylesDocument.Descendants(style + "header");
-            IEnumerable<XElement> footersTextElements = stylesDocument.Descendants(style + "footer");
-
-            //extracting elements for body text
-            using Stream stream = contentEntry.Open();
-            XDocument xmlDocument = XDocument.Load(stream);
+            
+            //variable extraction from content.xml
             XNamespace office = "urn:oasis:names:tc:opendocument:xmlns:office:1.0";
-            XElement? body = xmlDocument
+            XElement? body = contentDocument
                 .Element(office + "document-content")?
                 .Element(office + "body")?
                 .Element(office + "text");
             XNamespace text = "urn:oasis:names:tc:opendocument:xmlns:text:1.0";
             IEnumerable<XElement> bodyTextElements = body!.Descendants(text + "p");
+
+            //variable extraction from styles.xml
+            XNamespace style = "urn:oasis:names:tc:opendocument:xmlns:style:1.0";
+            IEnumerable<XElement> headersTextElements = stylesDocument.Descendants(style + "header");
+            IEnumerable<XElement> footersTextElements = stylesDocument.Descendants(style + "footer");
 
             //combining elements for single-operation regex search
             IEnumerable<XElement> combinedElements = bodyTextElements.Concat(footersTextElements).Concat(headersTextElements);
@@ -107,7 +111,7 @@ namespace ODTDOCXtoPDFConverter.Api.Services
                     using Stream destination = newEntry.Open();
 
                     if (entry.FullName == "content.xml")
-                        xmlDocument.Save(destination);
+                        contentDocument.Save(destination);
                     else if (entry.FullName == "styles.xml")
                         stylesDocument.Save(destination);
                     else

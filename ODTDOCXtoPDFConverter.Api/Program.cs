@@ -4,10 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using ODTDOCXtoPDFConverter.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using ODTDOCXtoPDFConverter.Api.Models;
-using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.AspNetCore.HttpOverrides;
 using System.Threading.RateLimiting;
-using Microsoft.AspNetCore.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +55,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 builder.Services.AddScoped<IPdfConverterService ,PdfConverterService>();
 builder.Services.AddScoped<OdtDocumentProcessorService>();
 builder.Services.AddScoped<DocxDocumentProcessorService>();
+builder.Services.AddScoped<DocumentVariableExtractorService>();
 
 var app = builder.Build();
 

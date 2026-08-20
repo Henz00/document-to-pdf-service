@@ -22,4 +22,15 @@ export class DocumentService {
       withCredentials: true
     });
   }
+
+  fetchVariables(document: File | undefined){
+    const formData = new FormData();
+
+    if (document) {
+        formData.append("document", document);
+    }
+
+    let url = this.apiUrl + "/extract";
+    return this.http.post<string[]>(url, formData);
+  }
 }

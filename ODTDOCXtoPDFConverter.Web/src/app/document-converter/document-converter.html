@@ -2,43 +2,47 @@
 <logout></logout>
 
 <p>Supporting .docx and .odt files</p>
-<form (submit)="convert($event)">
-  <div>
-    <label for="document-file">Document</label>
-    <input
-      type="file"
-      id="document-file"
-      accept=".odt,.docx"
-      (change)="onDocumentSelected($event)"
-    />
-  </div>
+<form [formGroup]="form" (submit)="convert($event)">
 
-  <div>
-    <label for="variables-file">Variables</label>
-    <input
-      type="file"
-      id="variables-file"
-      accept=".json"
-      (change)="onVariablesSelected($event)"
-    />
+  <div class="form-content">
+    <div>
+      <div>
+        <label for="document-file">Document</label>
+        <input
+          type="file"
+          id="document-file"
+          accept=".odt,.docx"
+          (change)="onDocumentSelected($event)"
+        />
+      </div>
+
+      <div>
+        <label for="variables-file">Variables</label>
+        <input
+          type="file"
+          id="variables-file"
+          accept=".json"
+          (change)="onVariablesSelected($event)"
+        />
+      </div>
+    </div>
+
+    <div>
+      @for (variable of variables; track variable) {
+        <div>
+          <label [for]="variable">{{ variable }}</label>
+
+          <input
+            [id]="variable"
+            [formControlName]="variable"
+          />
+        </div>
+      }
+    </div>
   </div>
 
   <div>
     <button type="submit">Convert to PDF</button>
   </div>
-</form>
-
-<form [formGroup]="form">
-
-  @for (variable of variables; track variable){
-    <div>
-    <label [for]="variable">{{ variable }}</label>
-
-    <input
-      [id]="variable"
-      [formControlName]="variable"
-    />
-  </div>
-  }
 
 </form>

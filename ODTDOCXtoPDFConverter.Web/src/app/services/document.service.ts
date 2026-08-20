@@ -11,11 +11,17 @@ export class DocumentService {
 
   constructor(private http: HttpClient) {}
 
-  convert(document: File, variables: File) {
+  convert(document: File, variables: Record<string, string | null>) {
     const formData = new FormData();
 
     formData.append('document', document);
-    formData.append('variables', variables);
+
+    const json = JSON.stringify(variables);
+    const variablesBlob = new Blob([json], {
+      type: 'application/json'
+    });
+
+    formData.append('variables', variablesBlob, 'variables.json');
 
     return this.http.post(this.apiUrl, formData, {
       responseType: 'blob',

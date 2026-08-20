@@ -11,6 +11,20 @@ form {
     text-align: left;
 }
 
-div {
+.form-content {
     display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    div {
+        display: flex;
+        flex-direction: column;
+    }
+
+    > div:first-child {
+        gap: 2rem;
+    }
+
+    > div:nth-child(2) {
+        gap: 1rem;
+    }
 }

@@ -35,7 +35,7 @@ export class documentConverter {
         }
 
         for (const variable of extracted) {
-          this.form.addControl(variable, new FormControl(''));
+          this.form.addControl(variable, new FormControl('', { nonNullable: true }));
         }
 
         this.cdr.detectChanges();
@@ -48,16 +48,33 @@ export class documentConverter {
   onVariablesSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     this.variablesFile = input.files?.[0];
+
+    if (!this.variablesFile)
+      return;
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const json = JSON.parse(reader.result as string);
+
+      this.form.patchValue(json);
+
+      this.cdr.detectChanges();
+    };
+
+    reader.readAsText(this.variablesFile);
   }
 
   convert(event: Event) {
-    event.preventDefault();
+  event.preventDefault();
 
-    if (!this.documentFile || !this.variablesFile)
-      return;
+  if (!this.documentFile)
+    return;
 
-    this.documentService
-    .convert(this.documentFile, this.variablesFile)
+  const variables: Record<string, string> = this.form.getRawValue();
+
+  this.documentService
+    .convert(this.documentFile, variables)
     .subscribe({
       next: pdf => {
         console.log('PDF received!', pdf);
@@ -75,5 +92,5 @@ export class documentConverter {
         console.error('Conversion failed:', error);
       }
     });
-  }
+}
 }

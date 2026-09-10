@@ -4,7 +4,6 @@ using ODTDOCXtoPDFConverter.Api.Services;
 
 namespace ODTDOCXtoPDFConverter.Api.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("api/document/extract")]
     public class DocumentVariableExtractionController : ControllerBase

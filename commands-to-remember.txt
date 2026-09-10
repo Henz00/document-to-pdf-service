@@ -1,5 +1,8 @@
 Create a user:
+[Docker]
 docker compose exec api dotnet ODTDOCXtoPDFConverter.Api.dll create-user nameOfUser
+[VS2026]
+dotnet run --no-build -- create-user testuser
 
 Name of services:
 docker compose config --services

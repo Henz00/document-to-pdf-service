@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 import { environment } from '../../environments/environment'
@@ -15,7 +15,9 @@ export class AuthService {
 
   private apiUrl = `${environment.apiUrl}/auth`;
 
-  private loggedIn = false;
+  private readonly loggedIn = signal(false);
+  readonly isLoggedIn = this.loggedIn.asReadonly();
+  
   private authenticationChecked = false;
 
   constructor(private http: HttpClient) {}
@@ -31,9 +33,9 @@ export class AuthService {
       credentials,
       { withCredentials: true }
     ).pipe(
-      tap(() => {
-        this.loggedIn = true;
-      })
+      tap(() => 
+        this.loggedIn.set(true)
+      )
     );
   }
 
@@ -43,9 +45,9 @@ export class AuthService {
       {},
       { withCredentials: true }
     ).pipe(
-      tap(() => {
-        this.loggedIn = false;
-      })
+      tap(() =>
+        this.loggedIn.set(false)
+      )
     );
   }
 
@@ -56,18 +58,17 @@ export class AuthService {
     ).pipe(
       map(() => true),
       catchError(() => {
-        this.loggedIn = false;
+        this.loggedIn.set(false);
         this.authenticationChecked = true;
         return of(false);
+      }), tap(isAuthenticated => {
+          this.loggedIn.set(isAuthenticated);
+          this.authenticationChecked = true;
       })
     );
   }
 
   isAuthenticationChecked(): boolean {
     return this.authenticationChecked;
-  }
-
-  isLoggedIn(): boolean {
-    return this.loggedIn;
   }
 }

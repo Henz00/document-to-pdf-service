@@ -1,7 +1,10 @@
-<h1>Document Converter</h1>
-<authentication></authentication>
+<header>
+  <authentication class="authentication"></authentication>
+  <p>Supporting .docx and .odt files</p>
+  <h1>Document Converter</h1>
+</header>
 
-<p>Supporting .docx and .odt files</p>
+
 <form [formGroup]="form" (submit)="convert($event)">
 
   <div class="form-content">

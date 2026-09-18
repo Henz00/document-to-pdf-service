@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
-builder.Services.AddScoped<DocumentService>();
+builder.Services.AddScoped<IDocumentService, DocumentService>();
 builder.Services.AddScoped<AddUserService>();
 
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
@@ -25,6 +25,12 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 
     options.KnownIPNetworks.Clear();
     options.KnownProxies.Clear();
+});
+
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.Limits.MaxRequestBodySize = UploadLimits.MaxRequestBytes;
+    serverOptions.Limits.RequestHeadersTimeout = TimeSpan.FromSeconds(30);
 });
 
 builder.Services.AddRateLimiter(options =>
@@ -55,7 +61,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 builder.Services.AddScoped<IPdfConverterService ,PdfConverterService>();
 builder.Services.AddScoped<OdtDocumentProcessorService>();
 builder.Services.AddScoped<DocxDocumentProcessorService>();
-builder.Services.AddScoped<DocumentVariableExtractorService>();
+builder.Services.AddScoped<IDocumentVariableExtractorService, DocumentVariableExtractorService>();
 
 var app = builder.Build();
 
@@ -104,7 +110,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseForwardedHeaders();
-app.UseRateLimiter();
+
+if (builder.Configuration.GetValue<bool>("RateLimiting:Enabled", true))
+{
+    app.UseRateLimiter();
+}
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
@@ -113,3 +124,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 namespace ODTDOCXtoPDFConverter.Api.Services
 {
-    public class DocumentService
+    public class DocumentService : IDocumentService
     {
         private readonly ILogger<DocumentService> _logger;
         private readonly IConfiguration _configuration;

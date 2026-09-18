@@ -1,10 +1,11 @@
 ﻿using System.IO.Compression;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ODTDOCXtoPDFConverter.Api.Services
 {
-    public class DocumentVariableExtractorService
+    public class DocumentVariableExtractorService : IDocumentVariableExtractorService
     {
         public async Task<List<string>> ExtractVariables(IFormFile document)
         {

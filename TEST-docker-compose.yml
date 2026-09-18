@@ -1,12 +1,13 @@
+name: converter-tests
+
 services:
   api:
     build:
       context: ./ODTDOCXtoPDFConverter.Api
-    container_name: odtdocx-api
-    restart: unless-stopped
     environment:
       ASPNETCORE_ENVIRONMENT: Production
-      RateLimiting__Enabled: "true"
+      ConnectionStrings__DefaultConnection: "Data Source=/app/data/identity.db"
+      RateLimiting__Enabled: "false"
     volumes:
       - identity-data:/app/data
       - dataprotection-keys:/root/.aspnet/DataProtection-Keys
@@ -14,10 +15,8 @@ services:
   web:
     build:
       context: ./ODTDOCXtoPDFConverter.Web
-    container_name: odtdocx-web
-    restart: unless-stopped
     ports:
-      - "127:0.0.1:4200:80"
+      - "127.0.0.1:4201:80"
     depends_on:
       - api
 

@@ -15,6 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<IDocumentService, DocumentService>();
+builder.Services.AddScoped<IDocumentValidatorService, DocumentValidatorService>();
 builder.Services.AddScoped<AddUserService>();
 
 builder.Services.Configure<ForwardedHeadersOptions>(options =>

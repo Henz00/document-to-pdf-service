@@ -24,8 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\TestDocuments\test.docx"
-          Link="TestDocuments\test.docx"
+    <None Include="..\..\TestDocuments\**\*"
+          Link="TestDocuments\%(RecursiveDir)%(Filename)%(Extension)"
           CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 

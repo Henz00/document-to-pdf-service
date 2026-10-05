@@ -378,7 +378,6 @@ public class UploadSizeDeploymentTests
         Assert.Contains("Document file limit is 10 MiB", body);
     }
 
-
     private static async Task Async_TestApiConnection(HttpClient client)
     {
         using var deadline = new CancellationTokenSource(TimeSpan.FromSeconds(30));

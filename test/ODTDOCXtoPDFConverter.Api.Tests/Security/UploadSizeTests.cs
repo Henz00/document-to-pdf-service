@@ -40,7 +40,7 @@ public class UploadSizeTests
         );
 
         // This rejection path should return before using the service.
-        var controller = new DocumentController(null!);
+        var controller = new DocumentController(null!, null!);
 
         // Act
         var result = await controller.ConvertDocument(
@@ -87,7 +87,7 @@ public class UploadSizeTests
         );
 
         // This rejection path should return before using the service.
-        var controller = new DocumentController(null!);
+        var controller = new DocumentController(null!, null!);
 
         // Act
         var result = await controller.ConvertDocument(
@@ -164,7 +164,7 @@ public class UploadSizeTests
         );
 
         var service = new FakeDocumentService();
-        var controller = new DocumentController(service);
+        var controller = new DocumentController(service, null!);
 
         // Act
         var result = await controller.ConvertDocument(
@@ -214,7 +214,7 @@ public class UploadSizeTests
         );
 
         var service = new FakeDocumentService();
-        var controller = new DocumentController(service);
+        var controller = new DocumentController(service, null!);
 
         // Act
         var result = await controller.ConvertDocument(

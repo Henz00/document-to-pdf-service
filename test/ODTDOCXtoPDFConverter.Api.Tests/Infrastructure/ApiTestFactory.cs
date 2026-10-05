@@ -19,6 +19,8 @@ public sealed class ApiTestFactory : WebApplicationFactory<Program>
     public FakeDocumentService DocumentService { get; } = new();
     public FakeDocumentVariableExtractorService VariableExtractorService { get; } = new();
 
+    public FakeDocumentValidatorService DocumentValidatorService { get; } = new();
+
     public ApiTestFactory()
     {
         _connection.Open();
@@ -46,6 +48,9 @@ public sealed class ApiTestFactory : WebApplicationFactory<Program>
 
             services.RemoveAll<IDocumentVariableExtractorService>();
             services.AddSingleton<IDocumentVariableExtractorService>(VariableExtractorService);
+
+            services.RemoveAll<IDocumentValidatorService>();
+            services.AddSingleton<IDocumentValidatorService>(DocumentValidatorService);
 
             // Authenticate requests as the test user.
             services.AddAuthentication(options =>

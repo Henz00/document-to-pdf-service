@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ODTDOCXtoPDFConverter.Api.Controllers;
 using ODTDOCXtoPDFConverter.Api.Models;
+using ODTDOCXtoPDFConverter.Api.Services;
 using ODTDOCXtoPDFConverter.Api.Tests.Infrastructure;
 
 namespace ODTDOCXtoPDFConverter.Api.Tests.Security;
@@ -164,7 +165,8 @@ public class UploadSizeTests
         );
 
         var service = new FakeDocumentService();
-        var controller = new DocumentController(service, null!);
+        var validator = new FakeDocumentValidatorService();
+        var controller = new DocumentController(service, validator);
 
         // Act
         var result = await controller.ConvertDocument(
@@ -214,7 +216,8 @@ public class UploadSizeTests
         );
 
         var service = new FakeDocumentService();
-        var controller = new DocumentController(service, null!);
+        var validator = new FakeDocumentValidatorService();
+        var controller = new DocumentController(service, validator);
 
         // Act
         var result = await controller.ConvertDocument(

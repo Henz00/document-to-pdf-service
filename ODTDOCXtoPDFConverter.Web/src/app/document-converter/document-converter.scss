@@ -1,6 +1,35 @@
 :host {
-    text-align: center;
+    text-align: left;
     display: grid;
+}
+
+header {
+    position: relative;
+    margin: 0 auto;
+    min-width: 100%;
+    min-height: 10rem;
+
+    authentication {
+        position: relative;
+        display: inline-block;
+        top: 0;
+        left: 0;
+        padding: 1rem;
+    }
+
+    p {
+        float: right;
+        margin-right: 30px;
+    }
+
+    h1 {
+        position:absolute;
+        inset: 0 0 50px;
+        width: 100px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 form {

@@ -1,13 +1,13 @@
 import { Component, signal, ChangeDetectorRef } from "@angular/core";
 import { DocumentService } from "../services/document.service";
-import { Logout } from "../logout/logout.component";
+import { Authentication } from "../authenticationController/authentication.component";
 import { FormGroup, FormControl, ReactiveFormsModule } from  "@angular/forms";
 
 @Component({
   selector: 'document-converter',
   templateUrl: './document-converter.html',
   styleUrl: './document-converter.scss',
-  imports: [Logout, ReactiveFormsModule]
+  imports: [Authentication, ReactiveFormsModule]
 })
 export class documentConverter {
   protected readonly title = signal('ODTDOCXtoPDFConverter.Web');

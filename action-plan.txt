@@ -1,0 +1,5 @@
+1. Implement better security
+2. Implement user features
+	- save templates
+	- jobs, run x action at x time at x day/week
+3. Beautify app

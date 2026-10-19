@@ -12,4 +12,8 @@ form {
 
 div {
     display: grid;
+
+    input {
+        max-width: 6rem;
+    }
 }

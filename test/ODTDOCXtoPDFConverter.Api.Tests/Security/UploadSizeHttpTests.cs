@@ -1,7 +1,8 @@
-﻿using System.Net;
-using System.Text.Json;
-using ODTDOCXtoPDFConverter.Api.Models;
+﻿using ODTDOCXtoPDFConverter.Api.Models;
 using ODTDOCXtoPDFConverter.Api.Tests.Infrastructure;
+using System.Net;
+using System.Text.Json;
+using System.Xml.Linq;
 
 namespace ODTDOCXtoPDFConverter.Api.Tests.Security;
 
@@ -115,19 +116,14 @@ public class UploadSizeHttpTests
 
         using var form = new MultipartFormDataContent();
 
-        form.Add(
-            new ByteArrayContent(
-                new byte[checked((int)UploadLimits.MaxDocumentBytes + 1)]
-            ),
-            "document",
-            "oversized.docx"
-        );
+        List<FormData> formData = new()
+        {
+            new FormData { Content = new ByteArrayContent(new byte[checked((int)UploadLimits.MaxDocumentBytes + 1)]), Name = "document", FileName = "document.docx"},
+            new FormData { Content = new StringContent("{}"), Name = "variables", FileName = "variables.json"}
 
-        form.Add(
-            new StringContent("{}"),
-            "variables",
-            "variables.json"
-        );
+        };
+
+        AddMultipleToForm(form, formData);
 
         // Act
         using var response = await client.PostAsync("/api/document/extract", form);
@@ -137,6 +133,7 @@ public class UploadSizeHttpTests
         Assert.Equal(0, factory.VariableExtractorService.CallCount);
     }
 
+ 
     [Fact]
     public async Task Convert_WhenDocumentAtMaxLimit_Returns200()
     {
@@ -303,35 +300,20 @@ public class UploadSizeHttpTests
             error.Contains(UploadLimits.MaxRequestBytes.ToString()));
     }
 
-    //[Fact]
-    //public async Task TemplateTest()
-    //{
-    //    // Arrange
-    //    using var factory = new ApiTestFactory();
-    //    factory.ClientOptions.AllowAutoRedirect = false;
-    //    using var client = factory.CreateClient();
+    #region Utility methods and classes for tests
+    private void AddMultipleToForm(MultipartFormDataContent form, List<FormData> list)
+    {
+        foreach (var item in list)
+            form.Add(item.Content, item.Name, item.FileName);
+    }
 
-    //    using var form = new MultipartFormDataContent();
+    private class FormData()
+    {
+        public required HttpContent Content {  get; set; }
+        public required string Name { get; set; }
+        public required string FileName { get; set; }
+    }
 
-    //    form.Add(
-    //        new ByteArrayContent(
-    //            new byte[checked((int)1)]
-    //        ),
-    //        "document",
-    //        "oversized.docx"
-    //    );
-
-    //    form.Add(
-    //        new StringContent("{}"),
-    //        "variables",
-    //        "variables.json"
-    //    );
-
-    //    // Act
-    //    using var response = await client.PostAsync("/api/document", form);
-
-    //    // Assert
-    //    Assert.Equal();
-    //}
+    #endregion
 
 }

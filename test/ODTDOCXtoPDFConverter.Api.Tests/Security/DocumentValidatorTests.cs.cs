@@ -143,4 +143,23 @@ public class DocumentValidatorTests
         Assert.True(result.IsValid);
 
     }
+
+    [Fact]
+    public void ValidateDocument_UploadCapitalizedExtensionDocxDocumentType_ReturnsTrue()
+    {
+        // arrange
+        var validator = new DocumentValidatorService();
+
+        var filePath = Path.Combine(AppContext.BaseDirectory, "TestDocuments", "capitalized.DOCX");
+
+        using var stream = File.OpenRead(filePath);
+        IFormFile document = new FormFile(stream, 0, stream.Length, "document", Path.GetFileName(filePath));
+
+        // act
+        var result = validator.ValidateDocument(document);
+
+        // assert
+        Assert.True(result.IsValid);
+
+    }
 }
